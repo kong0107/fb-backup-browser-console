@@ -1,25 +1,28 @@
 /// 這一段可以一直拉到最舊的文章
 var delay = 2000;
-var timer = setInterval(function() {
+var customTitle = document.title || 'Thomas Chen';
+var timer = setInterval(function () {
     var prevHeight = 0;
     var failCounter = 0;
-    return function() {
+    function failHandler() {
+        failCounter++;
+        console.log(`count: ${failCounter}`);
+        return failCounter;
+    }
+    return function () {
         var ch = document.body.clientHeight;
-        if(ch == prevHeight) {
-            if(failCounter++ == 5) {
+        if (ch === prevHeight) {
+            if (failHandler() === 5) {
                 clearInterval(timer);
                 console.log("Auto-scroll stopped.")
-                if(typeof export_recent_capsule_container == "function")
-                    export_recent_capsule_container();
+                isFunction(export_recent_capsule_container) && export_recent_capsule_container();
             }
-        }
-        else {
+        } else {
             failCounter = 0;
             window.scrollTo(0, prevHeight = ch);
         }
     }
 }(), delay);
-
 
 
 ///// 幾個待處理的「更多」
@@ -37,25 +40,30 @@ var timer = setInterval(function() {
     + '</body></html>';*/
 
 function export_recent_capsule_container() {
-    var onload = '(function(nl){for(var i=0;i<nl.length;++i)nl[i].style.cssText="";})(document.querySelectorAll("[style]"))';
-    var css = '.see_more_link_inner, .fbTimelineSubSections, .loadingIndicator  { display: none; } .userContentWrapper  { border-top: 4px solid #888; padding: .5rem; } .UFIContainer { margin-left: .5rem; border-left: 2px solid #888; padding-left: .5rem; } ._5x46 * { display: inline; }';
+    const onload = '(function(nl){for(var i=0;i<nl.length;++i)nl[i].style.cssText="";})(document.querySelectorAll("[style]"))';
+    const css = '.see_more_link_inner, .fbTimelineSubSections, .loadingIndicator  { display: none; } .userContentWrapper  { border-top: 4px solid #888; padding: .5rem; } .UFIContainer { margin-left: .5rem; border-left: 2px solid #888; padding-left: .5rem; } ._5x46 * { display: inline; }';
 
-    var html = '<!DOCTYPE HTML>\
-    <html lang="zh-TW">\
-        <head>\
-            <meta charset="UTF-8">\
-            <title>Thomas Chen</title>\
-            <base href="https://www.facebook.com/" target="_blank">\
-            <script>document.body.addEventListener("load", function(){' + onload + '});</script>\
-            <style>' + css + '</style>\
-        </head>\
-        <body>';
-    html += document.getElementById("recent_capsule_container").innerHTML;
-    html += '</body></html>';
+    const html = `<!DOCTYPE HTML>
+    <html lang="zh-TW">
+        <head>
+            <meta charset="UTF-8">
+            <title>${customTitle}</title>
+            <base href="https://www.facebook.com/" target="_blank">
+            <script>document.body.addEventListener("load", function(){${onload}});</script>
+            <style>${css}</style>
+        </head>
+        <body>
+          ${document.getElementById("recent_capsule_container").innerHTML}
+        </body></html>`;
 
-    var a = document.createElement("a");
-    var blob = new Blob([html], {type: "text/html"});
+    const a = document.createElement("a");
+    const blob = new Blob([html], { type: "text/html" });
     a.href = URL.createObjectURL(blob);
     a.download = "static.html";
     a.click();
+}
+
+function isFunction(functionToCheck) {
+    var getType = {};
+    return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
