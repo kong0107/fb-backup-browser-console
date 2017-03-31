@@ -8,8 +8,11 @@
 
 var title = "untitled";
 
+var delay = function() {
+    return 2000 + parseInt(Math.random() * 1000);
+};
+
 /// 這一段可以一直拉到最舊的文章
-var delay = 2000;
 var timer = setInterval(function() {
     var prevHeight = 0;
     var failCounter = 0;
@@ -25,13 +28,14 @@ var timer = setInterval(function() {
                 ));
                 expandAll();
             }
+            console.log("Failed to scroll down for the " + failCounter + " time(s) at " + (new Date).toLocalTimeString());
         }
         else {
             failCounter = 0;
             window.scrollTo(0, prevHeight = ch);
         }
     }
-}(), delay);
+}(), delay());
 
 
 /**
@@ -59,17 +63,17 @@ var keepClick = function() {
             if(!total) {
                 console.log("There's no " + selector + " in the " + con);
                 init();
-                if(callback) timer = setTimeout(callback, delay);
+                if(callback) timer = setTimeout(callback, delay());
                 return;
             }
             console.log(selector + " is found " + total + " time(s) in the " + con);
         }
         if(!target || !con.contains(target)) {
             target = con.querySelector(selector);
-            if(!target) {
+            if(!target || target.textContent == "顯示全部") {
                 console.log("Clicked all " + selector + " in the " + con);
                 init();
-                if(callback) timer = setTimeout(callback, delay);
+                if(callback) timer = setTimeout(callback, delay());
                 return;
             }
             console.log(++counter + "/" + total);
@@ -77,7 +81,7 @@ var keepClick = function() {
         }
         timer = setTimeout(function() {
             keepClick(con, selector, callback);
-        }, delay);
+        }, delay());
     };
 }();
 

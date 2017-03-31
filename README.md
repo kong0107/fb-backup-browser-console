@@ -21,5 +21,6 @@ backup timeline posts of one other person by running scripts in browser console
 2. 開啟瀏覽器的開發者工具（快捷鍵 `F12` ），進入「主控台 (Console) 」。
 3. 將 `main.js` 的內容貼進主控台，並按下 `Enter` 開始執行。
 4. 讓畫面自己捲動，直到沒有東西可以再捲之後十幾秒，主控台出現 `Auto-scroll stopped.` 訊息。
+   注意視窗不可縮到最小，或是被其他全螢幕視窗蓋掉。不過倒是可以失焦，也可以被其他不是全螢幕的視窗蓋住。
 5. 出現 `Auto-scroll stopped.` 訊息後數秒內應會自動觸發下載，若沒有出現那就是失敗了。
 6. 開啟下載好的檔案（因檔案較大，開啟時間可能超過十秒），然後按下 `Ctrl + S` 另存新檔，「存檔類型」選擇「完整的網頁」而非「僅限網頁的 HTML 部分」，瀏覽器即會再自動將圖檔也統一複製進一個資料夾。
