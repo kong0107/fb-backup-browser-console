@@ -8,8 +8,8 @@
  * 4. 複製一份，刪除不需要的東西，儲存為 `postsWithComments.html` 。
  */
 
-var title = document.title.match(/^(\(\d+\) )?(.*)$/)[2];
-var container = document.getElementById("pagelet_group_mall");
+var title = document.title.match(/^(\(\d+\) )?(.*)$/)[2]; ///< 把未讀訊息數略去
+var container = document.getElementById("contentArea"); ///< 才能包含至頂貼文 `#pagelet_pinned_posts`
 var deletableElems = [
     "#pagelet_group_composer", ///< 新貼文編輯框
     "#pagelet_group_pager", ///< 最後的 `{username}和其他 {count} 人都加入了這個社團。`
@@ -82,7 +82,7 @@ function downloadHTML(filename, body, style) {
                 <style>' + style + '</style>\
             </head>\
             <body>\
-                <h1>' + title + '</h1>\
+                <h1><a href="' + location.pathname + '">' + title + '</a></h1>\
                 ' + body + '\
             </body>\
         </html>\
